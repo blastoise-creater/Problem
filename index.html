@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaSentry | The Problem</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #0a192f, #020c1b);
+      color: #e0e0e0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #64ffda;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #64ffda;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      width: 320px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(100, 255, 218, 0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 40px rgba(100, 255, 218, 0.35);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1.2rem;
+    }
+
+    .card-content h3 {
+      color: #64ffda;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-content p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #d1d1d1;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .btn {
+      background: transparent;
+      border: 2px solid #64ffda;
+      color: #64ffda;
+      padding: 0.7rem 1.8rem;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #64ffda;
+      color: #0a192f;
+      box-shadow: 0 0 15px #64ffda;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #9ca3af;
+      padding-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>🚰 The Problem We’re Solving</header>
+
+  <section class="container">
+    <div class="card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Contaminated_water_in_hand_pump.jpg" alt="Contaminated Water">
+      <div class="card-content">
+        <h3>Unsafe Water Sources</h3>
+        <p>In many rural regions, people rely on handpumps or taps contaminated with heavy metals and microbes, unaware of the risks.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Children_fetching_water_from_a_pond_in_India.jpg" alt="Children Fetching Water">
+      <div class="card-content">
+        <h3>Health Risks</h3>
+        <p>Contaminated water causes illnesses such as diarrhea, cholera, and typhoid, especially in children and elderly individuals.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Polluted_river_India.jpg" alt="Polluted River">
+      <div class="card-content">
+        <h3>Lack of Awareness</h3>
+        <p>Most users have no means to check water quality before consumption, leading to ongoing health crises in affected communities.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="buttons">
+    <a href="#" class="btn">💧 Did You Know?</a>
+    <a href="#" class="btn">📊 See the Impact</a>
+    <a href="index.html" class="btn">⬅ Back</a>
+    <a href="solution.html" class="btn">Next ➡</a>
+  </div>
+
+  <footer>© 2025 AquaSentry | Viksit Bharat Abhiyan Buildthon</footer>
+
+</body>
+  </html>
