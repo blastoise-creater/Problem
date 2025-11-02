@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AquaSentry - The Planetary Scar: The Crisis of Water Ignorance</title>
-    <!-- Load Tailwind CSS -->
+    <!-- Load Tailwind CSS via CDN (Essential for Canvas environment) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom Font and Base Styling */
+        /* Note: External hosts (like GitHub Pages) may block this @import.
+           We include a strong font fallback (Inter, then system sans-serif) below. */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         
         :root {
@@ -16,16 +18,16 @@
             --color-crisis: #ef4444; /* Red 500 */
         }
         body {
-            font-family: 'Inter', sans-serif;
+            /* Robust font stack: Inter (from CDN) or system default sans-serif */
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
             background-color: var(--color-dark-bg);
             color: #f8fafc; /* Slate 50 */
             line-height: 1.6;
-            /* Ensures perfect mobile compatibility and no horizontal scroll */
             padding: 1rem; 
-            overflow-x: hidden; 
+            overflow-x: hidden; /* Critical for preventing mobile scroll issues */
         }
 
-        /* --- HIGH-PERFORMANCE CANVAS BACKGROUND (LAG FIX) --- */
+        /* --- HIGH-PERFORMANCE CANVAS BACKGROUND --- */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -45,19 +47,20 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
+            /* Radial gradient creates a dark vignette for cinematic feel */
             background: radial-gradient(circle at center, rgba(3, 7, 18, 0) 0%, rgba(3, 7, 18, 0.4) 70%, rgba(3, 7, 18, 0.9) 100%);
             z-index: -9;
         }
 
         /* --- Glassmorphism / Content Card Styles --- */
         .glass-card {
-            background-color: rgba(15, 23, 42, 0.85); /* Slate 900 with high transparency */
-            backdrop-filter: blur(15px); /* Increased blur */
-            border: 1px solid rgba(71, 85, 105, 0.6); /* Sharper border */
+            background-color: rgba(15, 23, 42, 0.85); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(71, 85, 105, 0.6); 
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
-        /* 3D Tilt Effect on Hover (Desktop/Smart Board) */
+        /* 3D Tilt Effect (Great for PC/Smart Board interaction) */
         @media (min-width: 1024px) {
             .glass-card:hover {
                 transform: perspective(1000px) rotateX(0.5deg) rotateY(0.5deg) scale(1.003);
@@ -77,12 +80,13 @@
             transform: translateY(0);
         }
 
-        /* --- Impressive CTA Button Style (Good Touch Target for Smart Boards) --- */
+        /* --- Impressive CTA Button Style --- */
         .cta-button {
             text-shadow: 0 0 10px rgba(6, 182, 212, 0.9);
             box-shadow: 0 0 30px var(--color-accent), 0 0 10px var(--color-accent);
             animation: pulse-shadow 2.5s infinite alternate;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            /* Ensure large touch target on mobile/smart board */
+            padding: 1.5rem 3rem; 
         }
 
         @keyframes pulse-shadow {
@@ -92,12 +96,10 @@
 
         .cta-button:hover {
             transform: scale(1.04);
-            box-shadow: 0 0 60px var(--color-accent), 0 0 20px var(--color-accent);
         }
 
         .cta-button:active {
             transform: scale(0.97);
-            box-shadow: 0 0 15px var(--color-accent);
         }
     </style>
 </head>
@@ -107,7 +109,7 @@
     <canvas id="particleCanvas"></canvas>
 
     <div class="max-w-7xl mx-auto relative z-10">
-        <!-- HEADER / CINEMATIC HERO SECTION (SCROLLABLE) -->
+        <!-- HEADER / CINEMATIC HERO SECTION (FADE-IN EFFECT) -->
         <header class="text-center py-20 sm:py-32 mb-20 rounded-3xl glass-card shadow-2xl shadow-red-900/60 fade-in-up" style="z-index: 50;">
             <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-red-500 to-red-700 uppercase">
                 THE PLANETARY SCAR: WATER IGNORANCE
@@ -296,11 +298,12 @@
 
     <!-- JAVASCRIPT FOR HIGH-PERFORMANCE CANVAS AND SCROLL ANIMATIONS -->
     <script>
-        // --- 1. HIGH-PERFORMANCE CANVAS PARTICLE SYSTEM (LAG FIX) ---
+        // --- 1. HIGH-PERFORMANCE CANVAS PARTICLE SYSTEM ---
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const particleCount = 1000; 
+        // Reduced particle count slightly for extreme low-end device performance
+        const particleCount = 700; 
         let scrollParallaxY = 0; 
 
         // Set initial canvas size
@@ -316,4 +319,82 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-            
+                this.size = Math.random() * 0.8 + 0.2;
+                this.speedY = Math.random() * 0.4 + 0.1; 
+                this.color = `rgba(6, 182, 212, ${Math.random() * 0.5 + 0.2})`;
+            }
+            update() {
+                this.y -= this.speedY; 
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                // Apply a minor parallax effect based on scroll position
+                let drawY = this.y - scrollParallaxY * (this.size / 2);
+                ctx.arc(this.x, drawY, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Initialization
+        function init() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            // Clear canvas with slight transparency for trailing effect
+            ctx.fillStyle = 'rgba(3, 7, 18, 0.1)'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // --- 2. SCROLL ANIMATION (INTERSECTION OBSERVER) & PARALLAX ---
+        function setupAnimations() {
+            const elementsToAnimate = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         entry.target.classList.add('in-view');
+                         observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -15% 0px',
+                threshold: 0.01 
+            });
+
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Parallax Scroll Listener
+            window.addEventListener('scroll', () => {
+                // Adjust scrollParallaxY to be a fraction of the actual scroll position
+                scrollParallaxY = window.scrollY * 0.05; 
+            });
+        }
+        
+        // Ensures all scripts run only after the entire document structure is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            init(); // Initialize particles
+            animate(); // Start the background animation loop
+            setupAnimations(); // Set up scroll effects
+        });
+    </script>
+
+</body>
+</html>
+
