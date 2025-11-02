@@ -1,134 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AquaSentry Construction & Materials Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{
-  background:linear-gradient(135deg,#021B79,#0575E6);
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  transition:background 1s ease;
-}
-header{
-  text-align:center;
-  margin-bottom:30px;
-}
-h1{
-  font-size:3rem;
-  text-shadow:0 0 20px #00bfff;
-}
-.nav{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  margin-bottom:25px;
-}
-.nav button{
-  background:rgba(255,255,255,0.1);
-  border:none;
-  color:#fff;
-  padding:10px 20px;
-  border-radius:25px;
-  cursor:pointer;
-  transition:all 0.3s ease;
-  font-weight:600;
-}
-.nav button:hover, .nav button.active{
-  background:#00bfff;
-  box-shadow:0 0 15px #00bfff;
-}
-.section{
-  display:none;
-  max-width:1200px;
-  text-align:center;
-  opacity:0;
-  transition:opacity 0.8s ease;
-}
-.section.active{
-  display:block;
-  opacity:1;
-}
-.section img{
-  width:60%;
-  border-radius:15px;
-  margin-top:20px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
-}
-p{font-size:1.2rem;margin-top:15px;line-height:1.6;}
-footer{
-  position:absolute;
-  bottom:15px;
-  font-size:0.9rem;
-  opacity:0.7;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaSentry - The Planetary Scar: The Crisis of Water Ignorance</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Font and Base Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --color-dark-bg: #030712; 
+            --color-accent: #06b6d4; /* Cyan 500 */
+            --color-crisis: #ef4444; /* Red 500 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-dark-bg);
+            color: #f8fafc; /* Slate 50 */
+            line-height: 1.6;
+            /* Ensures perfect mobile compatibility and no horizontal scroll */
+            padding: 1rem; 
+            overflow-x: hidden; 
+        }
+
+        /* --- HIGH-PERFORMANCE CANVAS BACKGROUND (LAG FIX) --- */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background-color: #000000;
+        }
+
+        /* Canvas Gradient Overlay for depth */
+        #particleCanvas::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(3, 7, 18, 0) 0%, rgba(3, 7, 18, 0.4) 70%, rgba(3, 7, 18, 0.9) 100%);
+            z-index: -9;
+        }
+
+        /* --- Glassmorphism / Content Card Styles --- */
+        .glass-card {
+            background-color: rgba(15, 23, 42, 0.85); /* Slate 900 with high transparency */
+            backdrop-filter: blur(15px); /* Increased blur */
+            border: 1px solid rgba(71, 85, 105, 0.6); /* Sharper border */
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        /* 3D Tilt Effect on Hover (Desktop/Smart Board) */
+        @media (min-width: 1024px) {
+            .glass-card:hover {
+                transform: perspective(1000px) rotateX(0.5deg) rotateY(0.5deg) scale(1.003);
+                border: 1px solid var(--color-accent);
+                box-shadow: 0 20px 60px rgba(6, 182, 212, 0.4);
+            }
+        }
+
+        /* --- SCROLL ANIMATION (AOS) STYLES --- */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(70px);
+            transition: opacity 1.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .fade-in-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Impressive CTA Button Style (Good Touch Target for Smart Boards) --- */
+        .cta-button {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.9);
+            box-shadow: 0 0 30px var(--color-accent), 0 0 10px var(--color-accent);
+            animation: pulse-shadow 2.5s infinite alternate;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes pulse-shadow {
+            from { box-shadow: 0 0 20px var(--color-accent), 0 0 7px var(--color-accent); }
+            to { box-shadow: 0 0 45px var(--color-accent), 0 0 15px var(--color-accent); }
+        }
+
+        .cta-button:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 60px var(--color-accent), 0 0 20px var(--color-accent);
+        }
+
+        .cta-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 15px var(--color-accent);
+        }
+    </style>
 </head>
-<body>
-<header>
-  <h1>AquaSentry Construction & Materials Guide</h1>
-</header>
-<div class="nav">
-  <button class="active" onclick="showSection('components',this)">Components</button>
-  <button onclick="showSection('construction',this)">Construction / Setup</button>
-  <button onclick="showSection('cost',this)">Cost & Maintenance</button>
-  <button onclick="showSection('safety',this)">Design & Safety</button>
-</div>
+<body class="sm:p-8">
 
-<!-- Sections -->
-<div id="components" class="section active">
-  <h2>Core Components</h2>
-  <p>The AquaSentry device integrates multiple sensors and microcontrollers for accurate real-time analysis. Major parts include: water quality sensors (pH, turbidity, TDS, temperature), Arduino UNO, OLED display, and solar panel power unit.</p>
-  <img src="https://images.unsplash.com/photo-1603791452906-c87e0290b3a6?auto=format&fit=crop&w=1200&q=80" alt="Electronic components">
-</div>
+    <!-- HIGH-PERFORMANCE CANVAS PARTICLE SYSTEM -->
+    <canvas id="particleCanvas"></canvas>
 
-<div id="construction" class="section">
-  <h2>Construction & Setup</h2>
-  <p>The sensors are mounted near the tap outlet for direct measurement. All components are secured inside a waterproof plastic casing. The solar panel on the top powers the system, while internal wiring connects sensors to the microcontroller.</p>
-  <img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=1200&q=80" alt="Assembly and construction">
-</div>
+    <div class="max-w-7xl mx-auto relative z-10">
+        <!-- HEADER / CINEMATIC HERO SECTION (SCROLLABLE) -->
+        <header class="text-center py-20 sm:py-32 mb-20 rounded-3xl glass-card shadow-2xl shadow-red-900/60 fade-in-up" style="z-index: 50;">
+            <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-red-500 to-red-700 uppercase">
+                THE PLANETARY SCAR: WATER IGNORANCE
+            </h1>
+            <p class="text-xl sm:text-3xl font-light text-slate-300 max-w-5xl mx-auto border-t border-b border-red-500/50 py-5 mt-10">
+                The **Global Catastrophe** of Information Asymmetry — A silent war waged against two billion lives, where ignorance is the most lethal contaminant.
+            </p>
+        </header>
 
-<div id="cost" class="section">
-  <h2>Cost & Maintenance</h2>
-  <p>Each unit costs approximately ₹3500–₹4000. The system requires minimal maintenance: cleaning the sensors monthly and checking battery health quarterly ensures optimal function. Data can be stored for up to a year using a microSD module.</p>
-  <img src="https://images.unsplash.com/photo-1581091012184-5c8c5d2f2b8d?auto=format&fit=crop&w=1200&q=80" alt="Cost estimation">
-</div>
+        <main class="space-y-28 pb-20">
+            <!-- SECTION 1: THE PERVASIVE SCOPE -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+                <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
+                    <span class="text-cyan-500 mr-3">1.</span> The Global Tipping Point: A Crisis Measured in Lost Generations
+                </h2>
+                <p class="mb-12 text-slate-300 text-lg sm:text-xl font-light border-l-4 border-red-500 pl-4">
+                    The failure to monitor local water sources is not just a logistical hurdle—it is one of the **greatest public health and humanitarian crises** of our time. This absence of data fuels cycles of poverty and disease, directly undermining global development and stability.
+                </p>
 
-<div id="safety" class="section">
-  <h2>Design & Safety</h2>
-  <p>The device is enclosed in a waterproof, non-corrosive plastic box. The transparent front protects the OLED screen and LEDs. Internal circuits are insulated to prevent shorting, ensuring full safety in rural and urban conditions alike.</p>
-  <img src="https://images.unsplash.com/photo-1566402462771-4b9b5d0b8efb?auto=format&fit=crop&w=1200&q=80" alt="Safety casing design">
-</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                    <!-- Stat Cards -->
+                    <div class="p-5 rounded-xl bg-red-900/40 border-t-4 border-red-400 hover:scale-[1.03] transition duration-300">
+                        <p class="text-5xl sm:text-6xl font-black text-red-300 mb-2">1,000+</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-red-200">Children Die Daily</p>
+                        <p class="text-xs text-slate-300 mt-2">Due to entirely preventable acute waterborne diseases like cholera and dysentery.</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-yellow-900/40 border-t-4 border-yellow-400 hover:scale-[1.03] transition duration-300">
+                        <p class="text-5xl sm:text-6xl font-black text-yellow-300 mb-2">$600M</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-yellow-200">Economic Burden</p>
+                        <p class="text-xs text-slate-300 mt-2">Lost productivity from over 73 million workdays annually due to illness.</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-blue-900/40 border-t-4 border-blue-400 hover:scale-[1.03] transition duration-300">
+                        <p class="text-5xl sm:text-6xl font-black text-blue-300 mb-2">250M</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-blue-200">Hours Lost Daily</p>
+                        <p class="text-xs text-slate-300 mt-2">Time spent fetching water, directly hindering the education of women and girls.</p>
+                    </div>
+                     <div class="p-5 rounded-xl bg-cyan-900/40 border-t-4 border-cyan-400 hover:scale-[1.03] transition duration-300">
+                        <p class="text-5xl sm:text-6xl font-black text-cyan-300 mb-2">2.2B</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-cyan-200">Unsafe Water Access</p>
+                        <p class="text-xs text-slate-300 mt-2">The global population left vulnerable without safely managed, trustworthy water sources.</p>
+                    </div>
+                </div>
+            </section>
 
-<footer>© 2025 AquaSentry Initiative | Viksit Bharat Abhiyan</footer>
+            <!-- SECTION 2: THE SILENT PANDEMIC (TOXINS) -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+                <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
+                    <span class="text-cyan-500 mr-3">2.</span> ☠️ The Chemical War: Irreversible Damage to the Human Blueprint
+                </h2>
+                <p class="mb-12 text-slate-300 text-lg sm:text-xl font-light border-l-4 border-red-500 pl-4">
+                    Far more devastating than acute disease is the slow, hidden attack of **chemical toxins**. These poisons inflict chronic, non-communicable damage that is irreversible, stealing cognitive ability and condemning future generations to lives of profound physical and economic hardship.
+                </p>
 
-<script>
-const sections=document.querySelectorAll('.section');
-const buttons=document.querySelectorAll('.nav button');
-function showSection(id,btn){
-  sections.forEach(s=>{
-    s.classList.remove('active');
-  });
-  buttons.forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  // change background color subtly
-  const colors={
-    components:'linear-gradient(135deg,#021B79,#0575E6)',
-    construction:'linear-gradient(135deg,#004e92,#000428)',
-    cost:'linear-gradient(135deg,#1CB5E0,#000046)',
-    safety:'linear-gradient(135deg,#283E51,#485563)'
-  };
-  document.body.style.background=colors[id];
-}
-</script>
-</body>
-  </html>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                    <!-- Arsenic and Fluoride -->
+                    <div class="bg-slate-700/60 p-6 rounded-xl border-l-8 border-purple-500 shadow-xl">
+                        <h3 class="text-2xl font-bold text-purple-300 mb-3 tracking-wide flex items-center">
+                            <span class="text-4xl mr-3">🧬</span> The Crippling Poisons
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-300 ml-4">
+                            <li><span class="text-purple-400 font-semibold">Arsenic:</span> Attacks the vascular and immune systems, leading to agonizing lesions and terminal cancer.</li>
+                            <li><span class="text-purple-400 font-semibold">Fluoride:</span> Causes debilitating **Skeletal Fluorosis**, permanently crippling millions.</li>
+                        </ul>
+                        <p class="text-xs italic text-slate-400 mt-4">This damage is permanent and occurs in the information vacuum created by outdated monitoring.</p>
+                    </div>
+
+                    <!-- Lead and Neurodevelopment -->
+                    <div class="bg-slate-700/60 p-6 rounded-xl border-l-8 border-orange-500 shadow-xl">
+                        <h3 class="text-2xl font-bold text-orange-300 mb-3 tracking-wide flex items-center">
+                             <span class="text-4xl mr-3">🧠</span> Cognitive Extinction
+                        </h3>
+                        <p class="text-slate-300">
+                            **Lead** is a foundational threat to societal intellect. It causes **irreversible cognitive impairment and developmental delays**. This is not a health problem; it's a systemic attack on human capital, making it impossible for affected populations to reach their potential.
+                        </p>
+                        <p class="text-xs italic text-slate-400 mt-4">The lack of real-time data allows this silent catastrophe to persist undetected for decades.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: OPERATIONAL FAILURES -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+                <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
+                    <span class="text-cyan-500 mr-3">3.</span> 🚧 Operational Collapse: Lethal Vulnerabilities
+                </h2>
+                <p class="mb-12 text-slate-300 text-lg sm:text-xl font-light border-l-4 border-red-500 pl-4">
+                    The current monitoring infrastructure is a failure by design. It relies on a centralized architecture that inevitably breaks down in remote, low-resource settings, creating three fundamental and lethal vulnerabilities.
+                </p>
+
+                <div class="space-y-8">
+                    <!-- Centralization -->
+                    <div class="p-5 rounded-xl bg-slate-700/70 flex flex-col sm:flex-row items-start space-x-4 border-l-4 border-red-400 hover:bg-slate-700 transition duration-200">
+                        <span class="text-4xl text-red-400 flex-shrink-0 mt-1">⏱️</span>
+                        <div>
+                            <h3 class="text-xl font-semibold text-red-300 mb-1">The Tyranny of Temporal Delay</h3>
+                            <p class="text-slate-300 text-base">
+                                Central lab results take **weeks or months**. This data is purely historical, documenting a catastrophe that has already passed. The system provides zero real-time security.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Complexity Constraints -->
+                    <div class="p-5 rounded-xl bg-slate-700/70 flex flex-col sm:flex-row items-start space-x-4 border-l-4 border-yellow-400 hover:bg-slate-700 transition duration-200">
+                        <span class="text-4xl text-yellow-400 flex-shrink-0 mt-1">🔌</span>
+                        <div>
+                            <h3 class="text-xl font-semibold text-yellow-300 mb-1">The Fragility of Infrastructure</h3>
+                            <p class="text-slate-300 text-base">
+                                Traditional devices require stable power and expert maintenance. Deployed in rural areas, these expensive systems quickly become **inoperable monuments to failure**, resulting in prolonged data blackouts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Inadequacy of Threshold Alerts -->
+                    <div class="p-5 rounded-xl bg-slate-700/70 flex flex-col sm:flex-row items-start space-x-4 border-l-4 border-cyan-400 hover:bg-slate-700 transition duration-200">
+                        <span class="text-4xl text-cyan-400 flex-shrink-0 mt-1">🧪</span>
+                        <div>
+                            <h3 class="text-xl font-semibold text-cyan-300 mb-1">The Flaw of Fixed Thresholds</h3>
+                            <p class="text-slate-300 text-base">
+                                Simple monitors cannot calculate **synergistic risk**. They report "Safe" when a combination of multiple sub-lethal contaminants creates a hazardous cocktail, leading to lethal **False Negatives**.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION 4: THE SYSTEMIC ECHOES -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+                <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
+                    <span class="text-cyan-500 mr-3">4.</span> The Systemic Echoes: Global Instability and Conflict
+                </h2>
+                <p class="mb-12 text-slate-300 text-lg sm:text-xl font-light border-l-4 border-red-500 pl-4">
+                    The crisis of water insecurity is an existential multiplier of global risk. It is a fundamental, non-negotiable driver of **mass migration, geopolitical conflict, and the complete breakdown of civil order** in water-stressed regions.
+                </p>
+
+                <div class="space-y-6 text-slate-300">
+                    <p class="text-lg font-medium text-red-300 flex items-center">
+                        <svg class="w-6 h-6 mr-3 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM5 9a1 1 0 011-1h8a1 1 0 010 2H6a1 1 0 01-1-1zm3 4a1 1 0 011-1h2a1 1 0 010 2H9a1 1 0 01-1-1z"></path></svg>
+                        Catalyst for Resource Conflict
+                    </p>
+                    <p class="ml-9 text-base">
+                        Uncertainty over water quality prevents cooperation. When sources are untrusted or depleted, competition becomes lethal, transforming local tensions into regional conflicts and military crises.
+                    </p>
+                    <p class="text-lg font-medium text-cyan-300 flex items-center">
+                        <svg class="w-6 h-6 mr-3 text-cyan-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8.707 7.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414-1.414l-3-3z"></path></svg>
+                        The Engine of Forced Migration
+                    </p>
+                    <p class="ml-9 text-base">
+                        No one chooses to drink poison. Water-driven health failures are the single most powerful trigger for the movement of millions, overburdening humanitarian systems and creating global instability.
+                    </p>
+                </div>
+            </section>
+            
+            <!-- SECTION 5: THE FAILURE OF THE FALSE REMEDY -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+                <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
+                    <span class="text-cyan-500 mr-3">5.</span> The Failure of the False Remedy: Why Traditional Tech Fails
+                </h2>
+                <p class="mb-8 text-slate-300 text-lg sm:text-xl font-light border-l-4 border-red-500 pl-4">
+                    The problem persists because the global response is anchored in outdated, unsustainable technology. These traditional systems are fatally ill-suited for the environments most in need—they are too complex, too demanding of infrastructure, and too expensive to ever scale effectively.
+                </p>
+                <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-yellow-400 to-red-400 text-center">
+                    The solution requires not just better tech, but a fundamental paradigm shift in how we monitor our most vital resource.
+                </p>
+            </section>
+
+             <!-- CALL TO ACTION / SOLUTION TEASE -->
+            <section class="text-center py-16 rounded-3xl bg-slate-900/90 glass-card shadow-2xl shadow-cyan-500/50 fade-in-up" style="z-index: 50;">
+                <h2 class="text-4xl sm:text-6xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-500 to-green-400 uppercase">
+                    THE SOLUTION BEGINS WITH DATA.
+                </h2>
+                <p class="text-xl sm:text-2xl text-slate-200 mb-12 max-w-4xl mx-auto font-light">
+                    Discover how **AquaSentry** is the resilient, autonomous, and intelligent solution engineered to defeat the crisis of information asymmetry at its core.
+                </p>
+                <a href="https://blastoise-creater.github.io/Aquasentry-project/"
+                   class="inline-block px-14 py-6 text-2xl bg-cyan-500 text-gray-900 font-extrabold rounded-full cta-button uppercase tracking-widest transform transition duration-500"
+                   role="button">
+                    <span class="relative z-10">ACCESS THE SOLUTION MANIFESTO</span>
+                </a>
+            </section>
+        </main>
+
+        <!-- FOOTER: UPDATED COPYRIGHT YEAR -->
+        <footer class="text-center mt-20 py-8 border-t border-slate-700/50 text-slate-500">
+            <p class="text-sm">Initiative powered by AquaSentry. &copy; 2025. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT FOR HIGH-PERFORMANCE CANVAS AND SCROLL ANIMATIONS -->
+    <script>
+        // --- 1. HIGH-PERFORMANCE CANVAS PARTICLE SYSTEM (LAG FIX) ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 1000; 
+        let scrollParallaxY = 0; 
+
+        // Set initial canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+            
