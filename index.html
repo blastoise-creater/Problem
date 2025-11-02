@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AquaSentry - The Planetary Scar: The Crisis of Water Ignorance</title>
-    <!-- Load Tailwind CSS via CDN (Essential for Canvas environment) -->
+    <!-- Load Tailwind CSS via CDN (Essential for robust environments) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom Font and Base Styling */
-        /* Note: External hosts (like GitHub Pages) may block this @import.
-           We include a strong font fallback (Inter, then system sans-serif) below. */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         
         :root {
@@ -18,13 +16,13 @@
             --color-crisis: #ef4444; /* Red 500 */
         }
         body {
-            /* Robust font stack: Inter (from CDN) or system default sans-serif */
+            /* Robust font stack for wide compatibility */
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
             background-color: var(--color-dark-bg);
             color: #f8fafc; /* Slate 50 */
             line-height: 1.6;
             padding: 1rem; 
-            overflow-x: hidden; /* Critical for preventing mobile scroll issues */
+            overflow-x: hidden; 
         }
 
         /* --- HIGH-PERFORMANCE CANVAS BACKGROUND --- */
@@ -47,7 +45,6 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            /* Radial gradient creates a dark vignette for cinematic feel */
             background: radial-gradient(circle at center, rgba(3, 7, 18, 0) 0%, rgba(3, 7, 18, 0.4) 70%, rgba(3, 7, 18, 0.9) 100%);
             z-index: -9;
         }
@@ -60,7 +57,7 @@
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
-        /* 3D Tilt Effect (Great for PC/Smart Board interaction) */
+        /* 3D Tilt Effect (PC/Smart Board) */
         @media (min-width: 1024px) {
             .glass-card:hover {
                 transform: perspective(1000px) rotateX(0.5deg) rotateY(0.5deg) scale(1.003);
@@ -70,6 +67,7 @@
         }
 
         /* --- SCROLL ANIMATION (AOS) STYLES --- */
+        /* These classes only apply to sections 3 and beyond now, ensuring the top is always visible */
         .fade-in-up {
             opacity: 0;
             transform: translateY(70px);
@@ -85,7 +83,6 @@
             text-shadow: 0 0 10px rgba(6, 182, 212, 0.9);
             box-shadow: 0 0 30px var(--color-accent), 0 0 10px var(--color-accent);
             animation: pulse-shadow 2.5s infinite alternate;
-            /* Ensure large touch target on mobile/smart board */
             padding: 1.5rem 3rem; 
         }
 
@@ -109,8 +106,8 @@
     <canvas id="particleCanvas"></canvas>
 
     <div class="max-w-7xl mx-auto relative z-10">
-        <!-- HEADER / CINEMATIC HERO SECTION (FADE-IN EFFECT) -->
-        <header class="text-center py-20 sm:py-32 mb-20 rounded-3xl glass-card shadow-2xl shadow-red-900/60 fade-in-up" style="z-index: 50;">
+        <!-- HEADER: REMOVED fade-in-up to ensure instant visibility -->
+        <header class="text-center py-20 sm:py-32 mb-20 rounded-3xl glass-card shadow-2xl shadow-red-900/60" style="z-index: 50;">
             <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-red-500 to-red-700 uppercase">
                 THE PLANETARY SCAR: WATER IGNORANCE
             </h1>
@@ -120,8 +117,8 @@
         </header>
 
         <main class="space-y-28 pb-20">
-            <!-- SECTION 1: THE PERVASIVE SCOPE -->
-            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+            <!-- SECTION 1: VISIBLE BY DEFAULT (Removed fade-in-up) -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">1.</span> The Global Tipping Point: A Crisis Measured in Lost Generations
                 </h2>
@@ -154,8 +151,8 @@
                 </div>
             </section>
 
-            <!-- SECTION 2: THE SILENT PANDEMIC (TOXINS) -->
-            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
+            <!-- SECTION 2: VISIBLE BY DEFAULT (Removed fade-in-up) -->
+            <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">2.</span> ☠️ The Chemical War: Irreversible Damage to the Human Blueprint
                 </h2>
@@ -189,7 +186,7 @@
                 </div>
             </section>
 
-            <!-- SECTION 3: OPERATIONAL FAILURES -->
+            <!-- SECTION 3: ANIMATED (Kept fade-in-up) -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">3.</span> 🚧 Operational Collapse: Lethal Vulnerabilities
@@ -234,7 +231,7 @@
                 </div>
             </section>
             
-            <!-- SECTION 4: THE SYSTEMIC ECHOES -->
+            <!-- SECTION 4: ANIMATED (Kept fade-in-up) -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">4.</span> The Systemic Echoes: Global Instability and Conflict
@@ -261,7 +258,7 @@
                 </div>
             </section>
             
-            <!-- SECTION 5: THE FAILURE OF THE FALSE REMEDY -->
+            <!-- SECTION 5: ANIMATED (Kept fade-in-up) -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">5.</span> The Failure of the False Remedy: Why Traditional Tech Fails
@@ -274,7 +271,7 @@
                 </p>
             </section>
 
-             <!-- CALL TO ACTION / SOLUTION TEASE -->
+             <!-- CALL TO ACTION / SOLUTION TEASE: ANIMATED (Kept fade-in-up) -->
             <section class="text-center py-16 rounded-3xl bg-slate-900/90 glass-card shadow-2xl shadow-cyan-500/50 fade-in-up" style="z-index: 50;">
                 <h2 class="text-4xl sm:text-6xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-500 to-green-400 uppercase">
                     THE SOLUTION BEGINS WITH DATA.
@@ -302,11 +299,9 @@
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        // Reduced particle count slightly for extreme low-end device performance
         const particleCount = 700; 
         let scrollParallaxY = 0; 
 
-        // Set initial canvas size
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -314,7 +309,6 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Particle Class
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
@@ -333,23 +327,19 @@
             draw() {
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
-                // Apply a minor parallax effect based on scroll position
                 let drawY = this.y - scrollParallaxY * (this.size / 2);
                 ctx.arc(this.x, drawY, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        // Initialization
         function init() {
             for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle());
             }
         }
 
-        // Animation Loop
         function animate() {
-            // Clear canvas with slight transparency for trailing effect
             ctx.fillStyle = 'rgba(3, 7, 18, 0.1)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -362,36 +352,42 @@
 
         // --- 2. SCROLL ANIMATION (INTERSECTION OBSERVER) & PARALLAX ---
         function setupAnimations() {
-            const elementsToAnimate = document.querySelectorAll('.fade-in-up');
+            // Target only the elements that still have the fade-in-up class (Sections 3+)
+            const elementsToAnimate = document.querySelectorAll('.fade-in-up'); 
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                         entry.target.classList.add('in-view');
-                         observer.unobserve(entry.target);
-                    }
+            if (elementsToAnimate.length > 0 && typeof IntersectionObserver !== 'undefined') {
+                 const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                             entry.target.classList.add('in-view');
+                             observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    rootMargin: '0px 0px -15% 0px',
+                    threshold: 0.01 
                 });
-            }, {
-                rootMargin: '0px 0px -15% 0px',
-                threshold: 0.01 
-            });
 
-            elementsToAnimate.forEach(element => {
-                observer.observe(element);
-            });
+                elementsToAnimate.forEach(element => {
+                    observer.observe(element);
+                });
+            } else {
+                 // Fallback: If no IntersectionObserver or no elements left to animate, do nothing.
+                 // The critical content is already visible by default.
+                 console.log("IntersectionObserver not needed or not supported.");
+            }
 
             // Parallax Scroll Listener
             window.addEventListener('scroll', () => {
-                // Adjust scrollParallaxY to be a fraction of the actual scroll position
                 scrollParallaxY = window.scrollY * 0.05; 
             });
         }
         
         // Ensures all scripts run only after the entire document structure is ready
         document.addEventListener('DOMContentLoaded', () => {
-            init(); // Initialize particles
-            animate(); // Start the background animation loop
-            setupAnimations(); // Set up scroll effects
+            init(); 
+            animate(); 
+            setupAnimations(); 
         });
     </script>
 
