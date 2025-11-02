@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AquaSentry - The Planetary Scar: The Crisis of Water Ignorance</title>
-    <!-- Load Tailwind CSS via CDN (Essential for robust environments) -->
+    <!-- Load Tailwind CSS via CDN (Still required for utility classes and layout) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom Font and Base Styling */
@@ -16,9 +16,11 @@
             --color-crisis: #ef4444; /* Red 500 */
         }
         body {
-            /* Robust font stack for wide compatibility */
+            /* *** CRITICAL FIX: HARDCODE BACKGROUND COLOR ***
+               This ensures the page is dark even if the Tailwind CDN fails.
+            */
+            background-color: #030712 !important; 
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            background-color: var(--color-dark-bg);
             color: #f8fafc; /* Slate 50 */
             line-height: 1.6;
             padding: 1rem; 
@@ -67,7 +69,6 @@
         }
 
         /* --- SCROLL ANIMATION (AOS) STYLES --- */
-        /* These classes only apply to sections 3 and beyond now, ensuring the top is always visible */
         .fade-in-up {
             opacity: 0;
             transform: translateY(70px);
@@ -106,7 +107,7 @@
     <canvas id="particleCanvas"></canvas>
 
     <div class="max-w-7xl mx-auto relative z-10">
-        <!-- HEADER: REMOVED fade-in-up to ensure instant visibility -->
+        <!-- HEADER: Always visible content -->
         <header class="text-center py-20 sm:py-32 mb-20 rounded-3xl glass-card shadow-2xl shadow-red-900/60" style="z-index: 50;">
             <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-red-500 to-red-700 uppercase">
                 THE PLANETARY SCAR: WATER IGNORANCE
@@ -117,7 +118,7 @@
         </header>
 
         <main class="space-y-28 pb-20">
-            <!-- SECTION 1: VISIBLE BY DEFAULT (Removed fade-in-up) -->
+            <!-- SECTION 1: Always visible content -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">1.</span> The Global Tipping Point: A Crisis Measured in Lost Generations
@@ -151,7 +152,7 @@
                 </div>
             </section>
 
-            <!-- SECTION 2: VISIBLE BY DEFAULT (Removed fade-in-up) -->
+            <!-- SECTION 2: Always visible content -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">2.</span> ☠️ The Chemical War: Irreversible Damage to the Human Blueprint
@@ -186,7 +187,7 @@
                 </div>
             </section>
 
-            <!-- SECTION 3: ANIMATED (Kept fade-in-up) -->
+            <!-- SECTION 3: Animated (Relies on JavaScript) -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">3.</span> 🚧 Operational Collapse: Lethal Vulnerabilities
@@ -231,7 +232,7 @@
                 </div>
             </section>
             
-            <!-- SECTION 4: ANIMATED (Kept fade-in-up) -->
+            <!-- SECTION 4: Animated (Relies on JavaScript) -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">4.</span> The Systemic Echoes: Global Instability and Conflict
@@ -258,7 +259,7 @@
                 </div>
             </section>
             
-            <!-- SECTION 5: ANIMATED (Kept fade-in-up) -->
+            <!-- SECTION 5: Animated (Relies on JavaScript) -->
             <section class="p-5 sm:p-12 rounded-2xl glass-card shadow-2xl fade-in-up">
                 <h2 class="text-3xl sm:text-5xl font-extrabold mb-8 pb-4 text-red-400 border-b-4 border-cyan-500/50">
                     <span class="text-cyan-500 mr-3">5.</span> The Failure of the False Remedy: Why Traditional Tech Fails
@@ -271,7 +272,7 @@
                 </p>
             </section>
 
-             <!-- CALL TO ACTION / SOLUTION TEASE: ANIMATED (Kept fade-in-up) -->
+             <!-- CALL TO ACTION / SOLUTION TEASE: Animated (Relies on JavaScript) -->
             <section class="text-center py-16 rounded-3xl bg-slate-900/90 glass-card shadow-2xl shadow-cyan-500/50 fade-in-up" style="z-index: 50;">
                 <h2 class="text-4xl sm:text-6xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-500 to-green-400 uppercase">
                     THE SOLUTION BEGINS WITH DATA.
@@ -287,7 +288,7 @@
             </section>
         </main>
 
-        <!-- FOOTER: UPDATED COPYRIGHT YEAR -->
+        <!-- FOOTER -->
         <footer class="text-center mt-20 py-8 border-t border-slate-700/50 text-slate-500">
             <p class="text-sm">Initiative powered by AquaSentry. &copy; 2025. All Rights Reserved.</p>
         </footer>
@@ -340,6 +341,7 @@
         }
 
         function animate() {
+            // Clears canvas with slight transparency for trailing effect
             ctx.fillStyle = 'rgba(3, 7, 18, 0.1)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -352,7 +354,6 @@
 
         // --- 2. SCROLL ANIMATION (INTERSECTION OBSERVER) & PARALLAX ---
         function setupAnimations() {
-            // Target only the elements that still have the fade-in-up class (Sections 3+)
             const elementsToAnimate = document.querySelectorAll('.fade-in-up'); 
 
             if (elementsToAnimate.length > 0 && typeof IntersectionObserver !== 'undefined') {
@@ -371,10 +372,6 @@
                 elementsToAnimate.forEach(element => {
                     observer.observe(element);
                 });
-            } else {
-                 // Fallback: If no IntersectionObserver or no elements left to animate, do nothing.
-                 // The critical content is already visible by default.
-                 console.log("IntersectionObserver not needed or not supported.");
             }
 
             // Parallax Scroll Listener
@@ -383,7 +380,7 @@
             });
         }
         
-        // Ensures all scripts run only after the entire document structure is ready
+        // Starts the application logic
         document.addEventListener('DOMContentLoaded', () => {
             init(); 
             animate(); 
